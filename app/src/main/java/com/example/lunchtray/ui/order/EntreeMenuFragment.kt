@@ -19,8 +19,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import com.example.lunchtray.R
 import com.example.lunchtray.databinding.FragmentEntreeMenuBinding
 import com.example.lunchtray.model.OrderViewModel
 
@@ -49,6 +55,7 @@ class EntreeMenuFragment : Fragment() {
     ): View? {
         _binding = FragmentEntreeMenuBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
         return root
     }
 
@@ -58,6 +65,18 @@ class EntreeMenuFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             viewModel = sharedViewModel
             // TODO: initialize the EntreeMenuFragment variables
+            val cancalButton:Button =binding.cancelButton
+            val nexButton :Button=binding.nextButton
+            val radioButtonGroup:RadioGroup=binding.entreeOptions
+
+            cancalButton.setOnClickListener {
+                cancelOrder()
+            }
+            nexButton.setOnClickListener {
+                goToNextScreen()
+            }
+
+
         }
     }
 
@@ -65,15 +84,17 @@ class EntreeMenuFragment : Fragment() {
      * Navigate to the side menu fragment.
      */
     fun goToNextScreen() {
-        // TODO: Navigate to the SideMenuFragment
+        findNavController().navigate(R.id.action_entreeMenuFragment_to_sideMenuFragment)
+
     }
 
     /**
      * Cancel the order and start over.
      */
     fun cancelOrder() {
-        // TODO: Reset order in view model
-        // TODO: Navigate back to the [StartFragment] to start over
+        sharedViewModel.resetOrder()
+        findNavController().navigate(R.id.action_entreeMenuFragment_to_startOrderFragment2)
+
     }
 
     /**
